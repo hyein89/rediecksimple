@@ -1,50 +1,42 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function HomePage() {
+export default function Page() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState("");
 
-  useEffect(() => {
-    const btn = document.querySelector(".copy-hint");
-    if (!btn) return;
+  const handleGenerate = () => {
+    if (!url) return;
+    setResult(`${window.location.origin}/abc123?${url}`);
+  };
 
-    btn.addEventListener("click", () => {
-      if (!result) return;
-      navigator.clipboard.writeText(result);
-    });
-  }, [result]);
+  const handleCopy = async () => {
+    if (!result) return;
+    await navigator.clipboard.writeText(result);
+    alert("Copied!");
+  };
 
   return (
-    <>
+    <div id="new">
       <h2>Create a URL for me</h2>
 
       <input
         className="url-input"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
+        placeholder="https://example.com"
       />
 
-      <button
-        onClick={() =>
-          setResult(`${window.location.origin}/abc123?${url}`)
-        }
-      >
-        Generate
-      </button>
+      <button onClick={handleGenerate}>Generate</button>
 
       <div className="result-box">
         <a id="create-result">{result}</a>
-        <span className="copy-hint">Copy</span>
+        <button className="copy-hint" onClick={handleCopy}>
+          Copy
+        </button>
       </div>
-
-      {/* ADS NATIVE */}
-      <div id="native-banner-wrapper">
-        <script async data-cfasync="false" src="https://signingunwilling.com/98524bcd6ddbc8467674f5d221bc066a/invoke.js"></script>
-        <div id="container-98524bcd6ddbc8467674f5d221bc066a"></div>
-      </div>
-    </>
+    </div>
   );
 }
