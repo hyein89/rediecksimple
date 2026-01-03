@@ -10,7 +10,7 @@ export default function Page() {
 
   const handleGenerate = () => {
     if (!url) return;
-    setResult(`${window.location.origin}/abc123?${url}`);
+    setResult(`${window.location.origin}/G0LUHWRR6R?${url}`);
     setCopied(false);
   };
 
