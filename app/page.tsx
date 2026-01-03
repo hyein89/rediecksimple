@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,37 +5,48 @@ import { useState } from "react";
 export default function Page() {
   const [url, setUrl] = useState("");
   const [result, setResult] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const handleGenerate = () => {
     if (!url) return;
     setResult(`${window.location.origin}/abc123?${url}`);
+    setCopied(false);
   };
 
   const handleCopy = async () => {
     if (!result) return;
     await navigator.clipboard.writeText(result);
-    alert("Copied!");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   return (
-    <div id="new">
+    <div className="container">
       <h2>Create a URL for me</h2>
 
       <input
         className="url-input"
+        placeholder="https://www.google.com"
         value={url}
         onChange={(e) => setUrl(e.target.value)}
-        placeholder="https://example.com"
       />
 
-      <button onClick={handleGenerate}>Generate</button>
+      <button className="generate-btn" onClick={handleGenerate}>
+        Generate
+      </button>
 
-      <div className="result-box">
-        <a id="create-result">{result}</a>
-        <button className="copy-hint" onClick={handleCopy}>
-          Copy
-        </button>
-      </div>
+      {result && (
+        <div className="result-box">
+          <a id="create-result">{result}</a>
+          <button
+            className={`copy-hint ${copied ? "copied" : ""}`}
+            onClick={handleCopy}
+          >
+            {copied ? "Copied ✓" : "Copy"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
