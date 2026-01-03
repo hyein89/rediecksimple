@@ -1,4 +1,5 @@
-import "@/public/css/style.css";
+import "./globals.css";
+
 
 export const metadata = {
   title: "Watch Video - 060",
