@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import links from "@/data/links.json";
 import RedirectLogic from "@/components/RedirectLogic";
@@ -9,13 +8,17 @@ type Props = {
   };
 };
 
-// META DINAMIS (TANPA DESCRIPTION)
+// META DINAMIS + ROBOTS LENGKAP
 export async function generateMetadata({ params }: Props) {
   const data = (links as any)[params.id];
 
   if (!data) {
     return {
       title: "Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -24,6 +27,22 @@ export async function generateMetadata({ params }: Props) {
     icons: {
       icon: "/favicon.png",
     },
+
+    // 🔥 ROBOTS RULES
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      noimageindex: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noarchive: true,
+        nosnippet: true,
+      },
+    },
+
+    // OPEN GRAPH (ambil dari JSON)
     openGraph: {
       title: data.title,
       images: [
