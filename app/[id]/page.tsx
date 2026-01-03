@@ -1,6 +1,6 @@
 "use client";
 
-import links from "@/data/links.json";
+import links from "../../data/links.json";
 import { notFound } from "next/navigation";
 import { useEffect } from "react";
 
