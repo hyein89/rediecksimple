@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import RedirectLogic from "@/components/RedirectLogic";
+
+export default function Page() {
+  return <RedirectLogic />;
+}
 
 export default function HomePage() {
   const [url, setUrl] = useState("");
