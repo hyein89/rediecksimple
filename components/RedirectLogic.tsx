@@ -4,49 +4,60 @@ import { useEffect } from "react";
 
 export default function RedirectLogic() {
   useEffect(() => {
+    const TIMEOUT = 10000;
+
     let urls: string[] = [];
-
     let query = window.location.search;
-    if (query.startsWith("?")) query = query.substring(1);
 
+    if (query.startsWith("?")) query = query.substring(1);
     if (query.length > 0) {
-      for (let q of query.split(",")) {
-        if (q) urls.push(q);
-      }
+      urls = query.split(",").filter(Boolean);
     }
 
-    if (!urls.length) return;
+    let targetFound = false;
 
-    setTimeout(() => {
-      window.location.href = urls[0];
-    }, 1000);
+    async function attempt(url: string) {
+      try {
+        const response = await fetch(url, { method: "HEAD", mode: "no-cors" });
+        if (targetFound) return;
+        targetFound = true;
 
-    // ADS SCRIPT
-    const s = document.createElement("script");
-    s.src =
-      "https://signingunwilling.com/98524bcd6ddbc8467674f5d221bc066a/invoke.js";
-    s.async = true;
-    document.body.appendChild(s);
+        document.getElementById("redirect-testing")!.style.display = "none";
+        document.getElementById("redirect-found")!.style.display = "";
+        const link = document.querySelector("#redirect-found a")!;
+        link.setAttribute("href", url);
+        link.textContent = url;
 
-    document
-      .getElementById("close-native-banner")
-      ?.addEventListener("click", () => {
-        const el = document.getElementById("native-banner-wrapper");
-        if (el) el.style.display = "none";
-      });
+        setTimeout(() => (window.location.href = url), 1000);
+      } catch {}
+    }
+
+    if (urls.length > 0) {
+      document.getElementById("placeholder")!.style.display = "none";
+      document.getElementById("redirect")!.style.display = "";
+
+      Promise.all(urls.map(attempt));
+      setTimeout(() => {
+        if (!targetFound) {
+          document.getElementById("redirect-testing")!.style.display = "none";
+          document.getElementById("redirect-none")!.style.display = "";
+        }
+      }, TIMEOUT);
+    }
   }, []);
 
   return (
     <>
-      <div id="redirect">
-        <p id="redirect-testing">Testing provided URLs...</p>
-      </div>
+      <div id="placeholder">Loading...</div>
 
-      <div id="native-banner-wrapper">
-        <div id="native-banner-container">
-          <div id="container-98524bcd6ddbc8467674f5d221bc066a"></div>
-          <button id="close-native-banner">Closed</button>
-        </div>
+      <div id="redirect" style={{ display: "none" }}>
+        <p id="redirect-testing">Testing provided URLs...</p>
+        <p id="redirect-found" style={{ display: "none" }}>
+          Redirecting to <a href="#"></a>
+        </p>
+        <p id="redirect-none" style={{ display: "none" }}>
+          None of the provided URLs work!
+        </p>
       </div>
     </>
   );
