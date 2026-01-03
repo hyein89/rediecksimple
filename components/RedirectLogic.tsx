@@ -4,7 +4,8 @@ import { useEffect } from "react";
 
 export default function RedirectLogic() {
   useEffect(() => {
-    const TIMEOUT = 10000;
+    const TIMEOUT = 2000; // 2 detik
+
 
     let urls: string[] = [];
     let query = window.location.search;
