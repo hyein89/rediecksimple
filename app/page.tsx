@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import NativeAds from "@/components/NativeAds";
 
 export default function Page() {
   const [url, setUrl] = useState("");
@@ -21,32 +22,41 @@ export default function Page() {
   };
 
   return (
-    <div className="container">
-      <h2>Create a URL for me</h2>
+    <>
+      {/* ===== CREATE URL AREA ===== */}
+      <div className="container">
+        <h2>Create a URL for me</h2>
 
-      <input
-        className="url-input"
-        placeholder="https://www.google.com"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
+        <input
+          className="url-input"
+          placeholder="https://www.google.com"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
 
-      <button className="generate-btn" onClick={handleGenerate}>
-        Generate
-      </button>
+        <button className="generate-btn" onClick={handleGenerate}>
+          Generate
+        </button>
 
-      {result && (
-        <div className="result-box">
-          <a id="create-result">{result}</a>
-          <button
-            className={`copy-hint ${copied ? "copied" : ""}`}
-            onClick={handleCopy}
-          >
-            {copied ? "Copied ✓" : "Copy"}
-          </button>
-        </div>
-      )}
-    </div>
+        {result && (
+          <div className="result-box">
+            <a id="create-result" href={result}>
+              {result}
+            </a>
+
+            <button
+              className={`copy-hint ${copied ? "copied" : ""}`}
+              onClick={handleCopy}
+            >
+              {copied ? "Copied ✓" : "Copy"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ===== ADS AREA (WAJIB DI SINI) ===== */}
+      <NativeAds />
+    </>
   );
 }
 
