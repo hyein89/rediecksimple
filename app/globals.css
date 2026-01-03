@@ -103,4 +103,46 @@ h2 {
     width: 100%;
   }
 }
+#native-banner-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 
+
+  #native-banner-wrapper > div,
+  #native-banner-wrapper > script + div {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative; /* dibutuhkan untuk close button */
+  }
+
+  
+  #close-native-banner {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000000;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    font-size: 13px;
+    border-radius: 20px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    #close-native-banner {
+      font-size: 12px;
+      padding: 4px 10px;
+    }
+  }
